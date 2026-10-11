@@ -1,11 +1,11 @@
 SMART SALON — COMPLETE JAVA SYSTEM V2
 
 WHAT IS INCLUDED
-1) frontend/index.html — your supplied frontend source copied without changing its source code.
-2) backend/SalonBackend.java — Java HTTP REST backend, authentication, appointments, profiles, stylists, persistence, admin APIs.
-3) admin/AdminDashboard.java — separate black owner/admin desktop dashboard.
+1) frontend/index.html  , your supplied frontend source copied without changing its source code.
+2) backend/SalonBackend.java  Java HTTP REST backend, authentication, appointments, profiles, stylists, persistence, admin APIs.
+3) admin/AdminDashboard.java  separate black owner/admin desktop dashboard.
 4) data/ — runtime data is saved here automatically.
-5) run_all.bat — one-click Windows launcher.
+5) run_all.bat  one-click Windows launcher.
 
 IMPORTANT FRONTEND CONNECTION
 Your original frontend file is kept unchanged on disk. When you open http://localhost:8080/, the Java backend serves that exact file and appends a small runtime bridge. The bridge connects sign-in, signup, appointments, profile, cancel/reschedule and dashboard data to the Java backend. This avoids editing your supplied frontend source while still making the running site use the backend.
