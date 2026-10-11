@@ -1,0 +1,412 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SMART SALON — Premium Men's Grooming</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.577.0/dist/umd/lucide.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&amp;family=Fraunces:opsz,wght@9..144,600;9..144,700&amp;display=swap" rel="stylesheet">
+  <style>
+    :root{--coal:#101010;--ink:#171717;--panel:#20201f;--bronze:#bd8755;--cream:#f7f2eb;--muted:#aaa29b}
+    *{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;font-family:"DM Sans",sans-serif;background:var(--coal);color:var(--cream)}
+    .display{font-family:"Fraunces",serif}.view{display:none;animation:reveal .45s ease both}.view.active{display:block}
+    .grain{background-image:radial-gradient(rgba(255,255,255,.07) .65px,transparent .65px);background-size:6px 6px}
+    .hero-video{filter:grayscale(45%) contrast(1.12) brightness(.48);transform:scale(1.04);animation:slowZoom 18s ease-in-out infinite alternate}
+    .hero-shade{background:linear-gradient(90deg,rgba(8,8,8,.97) 3%,rgba(8,8,8,.73) 48%,rgba(8,8,8,.34))}
+    .section-kicker{color:var(--bronze);font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;font-weight:700}
+    .salon-card{background:linear-gradient(145deg,#252523,#181817);border:1px solid rgba(189,135,85,.17);transition:transform .3s ease,border-color .3s ease,box-shadow .3s ease}
+    .salon-card:hover{border-color:rgba(189,135,85,.68);transform:translateY(-5px);box-shadow:0 18px 42px rgba(0,0,0,.28)}
+    .bronze-button{background:#bd8755;color:#16110d;transition:transform .22s ease,filter .22s ease}.bronze-button:hover{filter:brightness(1.12);transform:translateY(-2px)}
+    .outline-button{border:1px solid rgba(247,242,235,.46);color:#f7f2eb;transition:background .2s,border-color .2s}.outline-button:hover{background:rgba(247,242,235,.1);border-color:#f7f2eb}
+    .nav-link{color:#c8c2bb;font-size:.76rem;letter-spacing:.1em;text-transform:uppercase;transition:color .2s}.nav-link:hover,.nav-link.active{color:#bd8755}
+    .modal{opacity:0;pointer-events:none;transition:opacity .25s}.modal.open{opacity:1;pointer-events:auto}.modal-panel{transform:translateY(22px);transition:transform .25s}.modal.open .modal-panel{transform:translateY(0)}
+    .hide{display:none!important}.booking-choice{border:1px solid #45413d;background:#171716;color:#ddd7cf;transition:border .2s,background .2s}.booking-choice.selected{border-color:#bd8755;background:rgba(189,135,85,.13);color:#f8e4d0}
+    .status-confirmed{color:#aadbaa;background:rgba(96,157,91,.13);border:1px solid rgba(120,190,113,.25)}.status-pending{color:#eccd95;background:rgba(189,135,85,.12);border:1px solid rgba(189,135,85,.25)}.status-cancelled{color:#efaaa2;background:rgba(218,101,91,.12);border:1px solid rgba(218,101,91,.25)}
+    .whatsapp{background:#25d366;box-shadow:0 10px 30px rgba(37,211,102,.3);transition:transform .2s}.whatsapp:hover{transform:scale(1.1)}
+    .dashboard-side button{width:100%;text-align:left;border-left:2px solid transparent}.dashboard-side button.active{background:rgba(189,135,85,.12);color:#f2c79d;border-left-color:#bd8755}
+    .reveal{animation:reveal .7s ease both}.delay-1{animation-delay:.15s}.delay-2{animation-delay:.3s}.delay-3{animation-delay:.45s}
+    @keyframes reveal{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:translateY(0)}}@keyframes slowZoom{from{transform:scale(1.04)}to{transform:scale(1.11)}}
+    @media(max-width:768px){.hero-shade{background:linear-gradient(90deg,rgba(8,8,8,.94),rgba(8,8,8,.62))}}
+  </style>
+ </head>
+ <body data-template-id="__page-root" class="w-full">
+  <header id="site-header" class="fixed top-0 z-40 w-full border-b border-white/10 bg-[#101010]/75 backdrop-blur-md transition-all">
+   <nav class="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 lg:px-8" aria-label="Main navigation"><button type="button" onclick="showPublicHome()" class="flex items-center gap-3 text-left" aria-label="Smart Salon home"> <span class="flex h-9 w-9 items-center justify-center border border-[#bd8755] text-[#bd8755]"><i data-lucide="scissors" class="h-4 w-4"></i></span> <span data-template-id="brand-name" class="canva-text text-sm font-bold tracking-[.22em]"></span> </button>
+    <div class="hidden items-center gap-6 md:flex"><button data-template-id="nav-home" class="canva-button nav-link active" type="button" onclick="showPublicHome()"></button> <button data-template-id="nav-services" class="canva-button nav-link" type="button" onclick="scrollHome('services')"></button> <button data-template-id="nav-stylists" class="canva-button nav-link" type="button" onclick="showPage('stylists')"></button> <button data-template-id="nav-about" class="canva-button nav-link" type="button" onclick="scrollHome('about')"></button>
+    </div>
+    <div class="hidden items-center gap-3 sm:flex"><button data-template-id="nav-signin" class="canva-button nav-link" type="button" onclick="openAuth('signin')"></button> <button data-template-id="nav-book-button" class="canva-button bronze-button rounded-sm px-4 py-2 text-xs font-bold uppercase tracking-wider" type="button" onclick="requestBooking()"></button>
+    </div><button type="button" class="p-2 text-stone-200 sm:hidden" aria-label="Open navigation" onclick="toggleMobileMenu()"><i data-lucide="menu"></i></button>
+   </nav>
+   <div id="mobile-menu" class="hide border-t border-white/10 bg-[#101010] px-5 py-4 sm:hidden">
+    <div class="grid gap-3"><button data-template-id="mobile-home" class="canva-button text-left text-sm text-stone-200" onclick="showPublicHome()"></button> <button data-template-id="mobile-services" class="canva-button text-left text-sm text-stone-200" onclick="scrollHome('services')"></button> <button data-template-id="mobile-stylists" class="canva-button text-left text-sm text-stone-200" onclick="showPage('stylists')"></button> <button data-template-id="mobile-about" class="canva-button text-left text-sm text-stone-200" onclick="scrollHome('about')"></button> <button data-template-id="mobile-signin" class="canva-button text-left text-sm text-[#d7a979]" onclick="openAuth('signin')"></button> <button data-template-id="mobile-book" class="canva-button bronze-button mt-1 rounded-sm py-3 text-sm font-bold" onclick="requestBooking()"></button>
+    </div>
+   </div>
+  </header>
+  <main>
+   <section id="home-view" class="view active">
+    <section id="home" class="relative flex min-h-[calc(100*min(var(--vh,1vh),1vh))] items-center overflow-hidden"><img data-template-id="hero-image" loading="lazy" class="canva-image absolute inset-0 h-full w-full object-cover">
+     <video class="hero-video absolute inset-0 h-full w-full object-cover" autoplay muted loop playsinline aria-hidden="true"><source src="https://videos.pexels.com/video-files/3998512/3998512-hd_1920_1080_25fps.mp4" type="video/mp4">
+     </video>
+     <div class="hero-shade absolute inset-0"></div>
+     <div class="grain absolute inset-0 opacity-40"></div>
+     <div class="relative mx-auto w-full max-w-7xl px-5 pt-24 lg:px-8">
+      <div class="max-w-3xl">
+       <p data-template-id="hero-eyebrow" class="canva-text reveal section-kicker mb-5"></p>
+       <h1 data-template-id="hero-title" class="canva-text display reveal delay-1 max-w-3xl leading-[.95]"></h1>
+       <p data-template-id="hero-subtitle" class="canva-text reveal delay-2 mt-7 max-w-xl leading-relaxed text-stone-300"></p>
+       <div class="reveal delay-3 mt-9 flex flex-wrap gap-3"><button data-template-id="hero-book-button" type="button" onclick="requestBooking()" class="canva-button bronze-button rounded-sm px-6 py-3.5 text-sm font-bold"></button> <button data-template-id="hero-stylists-button" type="button" onclick="showPage('stylists')" class="canva-button outline-button rounded-sm px-6 py-3.5 text-sm font-semibold"></button>
+       </div>
+      </div>
+     </div>
+    </section>
+    <section id="services" class="bg-[#151514] px-5 py-20 lg:px-8">
+     <div class="mx-auto max-w-7xl">
+      <div class="mb-10 flex flex-col justify-between gap-4 md:flex-row md:items-end">
+       <div>
+        <p data-template-id="services-kicker" class="canva-text section-kicker"></p>
+        <h2 data-template-id="services-title" class="canva-text display mt-3"></h2>
+       </div>
+       <p data-template-id="services-copy" class="canva-text max-w-md leading-relaxed text-stone-400"></p>
+      </div>
+      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+       <article data-template-id="service-classic" class="canva-card salon-card rounded-sm p-6">
+        <i data-lucide="scissors" class="mb-7 h-6 w-6 text-[#bd8755]"></i>
+        <h3 data-template-id="service-classic-title" class="canva-text font-bold"></h3>
+        <p data-template-id="service-classic-copy" class="canva-text mt-3 text-sm leading-relaxed text-stone-400"></p>
+        <p data-template-id="service-classic-meta" class="canva-text mt-5 text-sm text-[#d7a979]"></p><button data-template-id="service-classic-button" class="canva-button bronze-button mt-5 w-full py-2.5 text-xs font-bold" onclick="requestBooking('Classic Haircut')"></button>
+       </article>
+       <article data-template-id="service-combo" class="canva-card salon-card rounded-sm p-6">
+        <i data-lucide="sparkles" class="mb-7 h-6 w-6 text-[#bd8755]"></i>
+        <h3 data-template-id="service-combo-title" class="canva-text font-bold"></h3>
+        <p data-template-id="service-combo-copy" class="canva-text mt-3 text-sm leading-relaxed text-stone-400"></p>
+        <p data-template-id="service-combo-meta" class="canva-text mt-5 text-sm text-[#d7a979]"></p><button data-template-id="service-combo-button" class="canva-button bronze-button mt-5 w-full py-2.5 text-xs font-bold" onclick="requestBooking('Hair + Beard')"></button>
+       </article>
+       <article data-template-id="service-beard" class="canva-card salon-card rounded-sm p-6">
+        <i data-lucide="badge-check" class="mb-7 h-6 w-6 text-[#bd8755]"></i>
+        <h3 data-template-id="service-beard-title" class="canva-text font-bold"></h3>
+        <p data-template-id="service-beard-copy" class="canva-text mt-3 text-sm leading-relaxed text-stone-400"></p>
+        <p data-template-id="service-beard-meta" class="canva-text mt-5 text-sm text-[#d7a979]"></p><button data-template-id="service-beard-button" class="canva-button bronze-button mt-5 w-full py-2.5 text-xs font-bold" onclick="requestBooking('Beard Styling')"></button>
+       </article>
+       <article data-template-id="service-premium" class="canva-card salon-card rounded-sm p-6">
+        <i data-lucide="crown" class="mb-7 h-6 w-6 text-[#bd8755]"></i>
+        <h3 data-template-id="service-premium-title" class="canva-text font-bold"></h3>
+        <p data-template-id="service-premium-copy" class="canva-text mt-3 text-sm leading-relaxed text-stone-400"></p>
+        <p data-template-id="service-premium-meta" class="canva-text mt-5 text-sm text-[#d7a979]"></p><button data-template-id="service-premium-button" class="canva-button bronze-button mt-5 w-full py-2.5 text-xs font-bold" onclick="requestBooking('Premium Grooming')"></button>
+       </article>
+      </div>
+     </div>
+    </section>
+    <section id="about" class="bg-[#101010] px-5 py-20 lg:px-8">
+     <div class="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[.8fr_1.2fr]">
+      <div>
+       <p data-template-id="why-kicker" class="canva-text section-kicker"></p>
+       <h2 data-template-id="why-title" class="canva-text display mt-3 leading-tight"></h2>
+       <div class="mt-6 h-px w-14 bg-[#bd8755]"></div>
+      </div>
+      <div class="grid gap-x-10 gap-y-9 sm:grid-cols-2">
+       <div>
+        <i data-lucide="calendar-check" class="mb-4 h-5 w-5 text-[#bd8755]"></i>
+        <h3 data-template-id="benefit-booking-title" class="canva-text font-bold"></h3>
+        <p data-template-id="benefit-booking-copy" class="canva-text mt-2 text-sm leading-relaxed text-stone-400"></p>
+       </div>
+       <div>
+        <i data-lucide="award" class="mb-4 h-5 w-5 text-[#bd8755]"></i>
+        <h3 data-template-id="benefit-experts-title" class="canva-text font-bold"></h3>
+        <p data-template-id="benefit-experts-copy" class="canva-text mt-2 text-sm leading-relaxed text-stone-400"></p>
+       </div>
+       <div>
+        <i data-lucide="brain-circuit" class="mb-4 h-5 w-5 text-[#bd8755]"></i>
+        <h3 data-template-id="benefit-smart-title" class="canva-text font-bold"></h3>
+        <p data-template-id="benefit-smart-copy" class="canva-text mt-2 text-sm leading-relaxed text-stone-400"></p>
+       </div>
+       <div>
+        <i data-lucide="clock-3" class="mb-4 h-5 w-5 text-[#bd8755]"></i>
+        <h3 data-template-id="benefit-wait-title" class="canva-text font-bold"></h3>
+        <p data-template-id="benefit-wait-copy" class="canva-text mt-2 text-sm leading-relaxed text-stone-400"></p>
+       </div>
+      </div>
+     </div>
+    </section>
+    <section class="bg-[#151514] px-5 py-20 lg:px-8">
+     <div class="mx-auto max-w-7xl">
+      <div class="mb-10 flex flex-wrap items-end justify-between gap-4">
+       <div>
+        <p data-template-id="featured-kicker" class="canva-text section-kicker"></p>
+        <h2 data-template-id="featured-title" class="canva-text display mt-3"></h2>
+       </div><button data-template-id="featured-explore-button" class="canva-button outline-button rounded-sm px-5 py-3 text-sm" onclick="showPage('stylists')"></button>
+      </div>
+      <div class="grid gap-5 md:grid-cols-3">
+       <article class="salon-card overflow-hidden rounded-sm">
+        <img data-template-id="stylist-ahmed-image" loading="lazy" class="canva-image h-56 w-full object-cover">
+        <div class="p-5">
+         <h3 data-template-id="featured-ahmed-name" class="canva-text font-bold"></h3>
+         <p data-template-id="featured-ahmed-role" class="canva-text mt-1 text-sm text-[#d7a979]"></p>
+         <p data-template-id="featured-ahmed-meta" class="canva-text mt-4 text-sm text-stone-400"></p>
+         <div class="mt-5 flex gap-2">
+          <button data-template-id="featured-ahmed-profile" class="canva-button outline-button flex-1 py-2 text-xs" onclick="openProfile('ahmed')"></button><button data-template-id="featured-ahmed-book" class="canva-button bronze-button flex-1 py-2 text-xs font-bold" onclick="requestBooking('', 'ahmed')"></button>
+         </div>
+        </div>
+       </article>
+       <article class="salon-card overflow-hidden rounded-sm">
+        <img data-template-id="stylist-hamza-image" loading="lazy" class="canva-image h-56 w-full object-cover">
+        <div class="p-5">
+         <h3 data-template-id="featured-hamza-name" class="canva-text font-bold"></h3>
+         <p data-template-id="featured-hamza-role" class="canva-text mt-1 text-sm text-[#d7a979]"></p>
+         <p data-template-id="featured-hamza-meta" class="canva-text mt-4 text-sm text-stone-400"></p>
+         <div class="mt-5 flex gap-2">
+          <button data-template-id="featured-hamza-profile" class="canva-button outline-button flex-1 py-2 text-xs" onclick="openProfile('hamza')"></button><button data-template-id="featured-hamza-book" class="canva-button bronze-button flex-1 py-2 text-xs font-bold" onclick="requestBooking('', 'hamza')"></button>
+         </div>
+        </div>
+       </article>
+       <article class="salon-card overflow-hidden rounded-sm">
+        <img data-template-id="stylist-daniyal-image" loading="lazy" class="canva-image h-56 w-full object-cover">
+        <div class="p-5">
+         <h3 data-template-id="featured-daniyal-name" class="canva-text font-bold"></h3>
+         <p data-template-id="featured-daniyal-role" class="canva-text mt-1 text-sm text-[#d7a979]"></p>
+         <p data-template-id="featured-daniyal-meta" class="canva-text mt-4 text-sm text-stone-400"></p>
+         <div class="mt-5 flex gap-2">
+          <button data-template-id="featured-daniyal-profile" class="canva-button outline-button flex-1 py-2 text-xs" onclick="openProfile('daniyal')"></button><button data-template-id="featured-daniyal-book" class="canva-button bronze-button flex-1 py-2 text-xs font-bold" onclick="requestBooking('', 'daniyal')"></button>
+         </div>
+        </div>
+       </article>
+      </div>
+     </div>
+    </section>
+    <section data-template-id="final-cta-section" class="canva-section border-y border-[#bd8755]/25 px-5 py-20 text-center lg:px-8">
+     <p data-template-id="final-cta-kicker" class="canva-text section-kicker"></p>
+     <h2 data-template-id="final-cta-title" class="canva-text display mx-auto mt-3 max-w-2xl leading-tight"></h2>
+     <p data-template-id="final-cta-copy" class="canva-text mx-auto mt-5 max-w-xl text-stone-300"></p><button data-template-id="final-cta-button" type="button" onclick="requestBooking()" class="canva-button bronze-button mt-8 rounded-sm px-7 py-3.5 text-sm font-bold"></button>
+    </section>
+   </section>
+   <section id="stylists-view" class="view min-h-[calc(100*min(var(--vh,1vh),1vh))] bg-[#101010] px-5 pb-20 pt-32 lg:px-8">
+    <div class="mx-auto max-w-7xl">
+     <p data-template-id="stylists-kicker" class="canva-text section-kicker"></p>
+     <h1 data-template-id="stylists-title" class="canva-text display mt-3"></h1>
+     <p data-template-id="stylists-copy" class="canva-text mt-4 max-w-xl leading-relaxed text-stone-400"></p>
+     <div class="mt-10 grid gap-3 lg:grid-cols-5"><label class="relative block lg:col-span-2"><span class="sr-only">Search stylist</span><i data-lucide="search" class="absolute left-4 top-3.5 h-4 w-4 text-stone-500"></i><input id="stylist-search" type="search" placeholder="Search stylist or specialty" oninput="filterStylists()" class="w-full rounded-sm border border-stone-700 bg-[#191918] py-3 pl-11 pr-4 text-sm text-white outline-none focus:border-[#bd8755]"></label> <select id="service-filter" aria-label="Filter by service" onchange="filterStylists()" class="rounded-sm border border-stone-700 bg-[#191918] px-3 text-sm text-stone-200"><option value="all">All services</option><option value="Hair + Beard">Hair + Beard</option><option value="Beard Styling">Beard Styling</option><option value="Classic Haircut">Classic Haircut</option></select> <select id="availability-filter" aria-label="Filter availability" onchange="filterStylists()" class="rounded-sm border border-stone-700 bg-[#191918] px-3 text-sm text-stone-200"><option value="all">Any availability</option><option value="Today">Available today</option><option value="Tomorrow">Available tomorrow</option></select> <select id="sort-filter" aria-label="Sort stylists" onchange="filterStylists()" class="rounded-sm border border-stone-700 bg-[#191918] px-3 text-sm text-stone-200"><option value="rating">Top rating</option><option value="experience">Most experience</option></select>
+     </div>
+     <p id="stylist-results" class="mt-5 text-sm text-stone-500" aria-live="polite"></p>
+     <div id="stylist-grid" class="mt-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+      <article class="stylist-card salon-card overflow-hidden rounded-sm" data-name="Ahmed Khan" data-services="Classic Haircut,Hair + Beard,Premium Grooming" data-availability="Today" data-rating="4.9" data-experience="8">
+       <img data-template-id="stylist-ahmed-image" loading="lazy" class="canva-image h-60 w-full object-cover">
+       <div class="p-5">
+        <h3 data-template-id="stylist-ahmed-name" class="canva-text font-bold"></h3>
+        <p data-template-id="stylist-ahmed-specialty" class="canva-text mt-1 text-sm text-[#d7a979]"></p>
+        <p data-template-id="stylist-ahmed-details" class="canva-text mt-4 text-sm text-stone-400"></p>
+        <p data-template-id="stylist-ahmed-availability" class="canva-text mt-2 text-xs uppercase tracking-wider text-[#b5d6aa]"></p>
+        <div class="mt-5 flex gap-2">
+         <button data-template-id="stylist-ahmed-profile" class="canva-button outline-button flex-1 py-2 text-xs" onclick="openProfile('ahmed')"></button><button data-template-id="stylist-ahmed-book" class="canva-button bronze-button flex-1 py-2 text-xs font-bold" onclick="requestBooking('', 'ahmed')"></button>
+        </div>
+       </div>
+      </article>
+      <article class="stylist-card salon-card overflow-hidden rounded-sm" data-name="Hamza Ali" data-services="Hair + Beard,Beard Styling" data-availability="Tomorrow" data-rating="4.8" data-experience="6">
+       <img data-template-id="stylist-hamza-image" loading="lazy" class="canva-image h-60 w-full object-cover">
+       <div class="p-5">
+        <h3 data-template-id="stylist-hamza-name" class="canva-text font-bold"></h3>
+        <p data-template-id="stylist-hamza-specialty" class="canva-text mt-1 text-sm text-[#d7a979]"></p>
+        <p data-template-id="stylist-hamza-details" class="canva-text mt-4 text-sm text-stone-400"></p>
+        <p data-template-id="stylist-hamza-availability" class="canva-text mt-2 text-xs uppercase tracking-wider text-[#b5d6aa]"></p>
+        <div class="mt-5 flex gap-2">
+         <button data-template-id="stylist-hamza-profile" class="canva-button outline-button flex-1 py-2 text-xs" onclick="openProfile('hamza')"></button><button data-template-id="stylist-hamza-book" class="canva-button bronze-button flex-1 py-2 text-xs font-bold" onclick="requestBooking('', 'hamza')"></button>
+        </div>
+       </div>
+      </article>
+      <article class="stylist-card salon-card overflow-hidden rounded-sm" data-name="Daniyal Shah" data-services="Beard Styling,Premium Grooming,Hair + Beard" data-availability="Today" data-rating="4.9" data-experience="7">
+       <img data-template-id="stylist-daniyal-image" loading="lazy" class="canva-image h-60 w-full object-cover">
+       <div class="p-5">
+        <h3 data-template-id="stylist-daniyal-name" class="canva-text font-bold"></h3>
+        <p data-template-id="stylist-daniyal-specialty" class="canva-text mt-1 text-sm text-[#d7a979]"></p>
+        <p data-template-id="stylist-daniyal-details" class="canva-text mt-4 text-sm text-stone-400"></p>
+        <p data-template-id="stylist-daniyal-availability" class="canva-text mt-2 text-xs uppercase tracking-wider text-[#b5d6aa]"></p>
+        <div class="mt-5 flex gap-2">
+         <button data-template-id="stylist-daniyal-profile" class="canva-button outline-button flex-1 py-2 text-xs" onclick="openProfile('daniyal')"></button><button data-template-id="stylist-daniyal-book" class="canva-button bronze-button flex-1 py-2 text-xs font-bold" onclick="requestBooking('', 'daniyal')"></button>
+        </div>
+       </div>
+      </article>
+      <article class="stylist-card salon-card overflow-hidden rounded-sm" data-name="Usman Malik" data-services="Classic Haircut,Premium Grooming" data-availability="Tomorrow" data-rating="4.8" data-experience="5">
+       <img data-template-id="stylist-usman-image" loading="lazy" class="canva-image h-60 w-full object-cover">
+       <div class="p-5">
+        <h3 data-template-id="stylist-usman-name" class="canva-text font-bold"></h3>
+        <p data-template-id="stylist-usman-specialty" class="canva-text mt-1 text-sm text-[#d7a979]"></p>
+        <p data-template-id="stylist-usman-details" class="canva-text mt-4 text-sm text-stone-400"></p>
+        <p data-template-id="stylist-usman-availability" class="canva-text mt-2 text-xs uppercase tracking-wider text-[#b5d6aa]"></p>
+        <div class="mt-5 flex gap-2">
+         <button data-template-id="stylist-usman-profile" class="canva-button outline-button flex-1 py-2 text-xs" onclick="openProfile('usman')"></button><button data-template-id="stylist-usman-book" class="canva-button bronze-button flex-1 py-2 text-xs font-bold" onclick="requestBooking('', 'usman')"></button>
+        </div>
+       </div>
+      </article>
+     </div>
+     <p id="no-stylists" class="hide py-16 text-center text-stone-500">No stylists match the selected criteria.</p>
+    </div>
+   </section>
+   <section id="dashboard-view" class="view min-h-[calc(100*min(var(--vh,1vh),1vh))] bg-[#101010] px-5 pb-20 pt-28 lg:px-8">
+    <div class="mx-auto max-w-7xl lg:grid lg:grid-cols-[220px_1fr] lg:gap-10">
+     <aside class="dashboard-side mb-8 border-b border-white/10 pb-5 lg:mb-0 lg:border-b-0 lg:border-r lg:pb-0 lg:pr-5">
+      <p data-template-id="dashboard-kicker" class="canva-text section-kicker mb-3"></p><button data-template-id="dash-overview-button" class="canva-button active rounded-sm px-3 py-3 text-sm" onclick="dashboardTab('overview',this)"></button> <button data-template-id="dash-book-button" class="canva-button rounded-sm px-3 py-3 text-sm text-stone-400" onclick="requestBooking()"></button> <button data-template-id="dash-appointments-button" class="canva-button rounded-sm px-3 py-3 text-sm text-stone-400" onclick="dashboardTab('appointments',this)"></button> <button data-template-id="dash-history-button" class="canva-button rounded-sm px-3 py-3 text-sm text-stone-400" onclick="dashboardTab('history',this)"></button> <button data-template-id="dash-profile-button" class="canva-button rounded-sm px-3 py-3 text-sm text-stone-400" onclick="dashboardTab('profile',this)"></button> <button data-template-id="dash-signout-button" class="canva-button mt-4 rounded-sm px-3 py-3 text-sm text-red-200" onclick="signOut()"></button>
+     </aside>
+     <div>
+      <section id="dash-overview">
+       <h1 id="dashboard-greeting" class="display text-4xl"></h1>
+       <p data-template-id="dashboard-copy" class="canva-text mt-2 text-stone-400"></p>
+       <div class="mt-8 grid gap-4 sm:grid-cols-3">
+        <div data-template-id="metric-upcoming" class="canva-card salon-card p-5">
+         <span data-template-id="metric-upcoming-label" class="canva-text text-xs uppercase tracking-wider text-stone-400"></span><strong id="metric-upcoming-value" class="mt-2 block text-3xl"></strong>
+        </div>
+        <div data-template-id="metric-visits" class="canva-card salon-card p-5">
+         <span data-template-id="metric-visits-label" class="canva-text text-xs uppercase tracking-wider text-stone-400"></span><strong id="metric-visits-value" class="mt-2 block text-3xl">08</strong>
+        </div>
+        <div data-template-id="metric-stylist" class="canva-card salon-card p-5">
+         <span data-template-id="metric-stylist-label" class="canva-text text-xs uppercase tracking-wider text-stone-400"></span><strong id="metric-stylist-value" class="mt-2 block text-xl">Ahmed Khan</strong>
+        </div>
+       </div>
+       <h2 data-template-id="upcoming-heading" class="canva-text mt-10 font-bold"></h2>
+       <div id="upcoming-card" class="mt-4"></div>
+      </section>
+      <section id="dash-appointments" class="hide">
+       <h2 data-template-id="appointments-title" class="canva-text display"></h2>
+       <p data-template-id="appointments-copy" class="canva-text mt-2 text-stone-400"></p>
+       <div id="appointments-list" class="mt-8 space-y-4"></div>
+      </section>
+      <section id="dash-history" class="hide">
+       <h2 data-template-id="history-title" class="canva-text display"></h2>
+       <div class="mt-6 flex flex-wrap gap-2">
+        <button data-template-id="history-all-button" class="canva-button outline-button px-4 py-2 text-xs" onclick="filterHistory('all')"></button><button data-template-id="history-completed-button" class="canva-button outline-button px-4 py-2 text-xs" onclick="filterHistory('Completed')"></button><button data-template-id="history-cancelled-button" class="canva-button outline-button px-4 py-2 text-xs" onclick="filterHistory('Cancelled')"></button>
+       </div>
+       <div id="history-list" class="mt-6 space-y-4"></div>
+      </section>
+      <section id="dash-profile" class="hide max-w-xl">
+       <h2 data-template-id="profile-title" class="canva-text display"></h2>
+       <form id="profile-form" class="salon-card mt-7 p-7" onsubmit="saveProfile(event)">
+        <label data-template-id="profile-name-label" for="profile-name-input" class="canva-text block text-sm font-semibold"></label><input id="profile-name-input" required class="mt-2 w-full border border-stone-700 bg-[#101010] p-3 text-white outline-none focus:border-[#bd8755]"><label data-template-id="profile-email-label" for="profile-email-input" class="canva-text mt-5 block text-sm font-semibold"></label><input id="profile-email-input" type="email" required class="mt-2 w-full border border-stone-700 bg-[#101010] p-3 text-white outline-none focus:border-[#bd8755]"><label data-template-id="profile-phone-label" for="profile-phone-input" class="canva-text mt-5 block text-sm font-semibold"></label><input id="profile-phone-input" required class="mt-2 w-full border border-stone-700 bg-[#101010] p-3 text-white outline-none focus:border-[#bd8755]"><button data-template-id="profile-save-button" class="canva-button bronze-button mt-6 w-full py-3 text-sm font-bold" type="submit"></button>
+        <p id="profile-message" class="mt-3 text-sm text-[#b5d6aa]" aria-live="polite"></p>
+       </form>
+      </section>
+     </div>
+    </div>
+   </section>
+  </main>
+  <footer class="border-t border-white/10 bg-[#0c0c0c] px-5 py-12 lg:px-8">
+   <div class="mx-auto grid max-w-7xl gap-8 md:grid-cols-3">
+    <div>
+     <strong data-template-id="footer-brand" class="canva-text tracking-[.18em] text-stone-200"></strong>
+     <p data-template-id="footer-copy" class="canva-text mt-3 text-sm text-stone-500"></p>
+    </div>
+    <div>
+     <h2 data-template-id="footer-links-title" class="canva-text text-sm font-bold"></h2>
+     <div class="mt-3 grid gap-2 text-sm text-stone-400">
+      <button data-template-id="footer-services-link" class="canva-button text-left" onclick="scrollHome('services')"></button><button data-template-id="footer-stylists-link" class="canva-button text-left" onclick="showPage('stylists')"></button><a data-template-id="footer-contact-link" class="canva-link" href="https://wa.me/920000000000" target="_blank" rel="noopener noreferrer"></a>
+     </div>
+    </div>
+    <div>
+     <h2 data-template-id="footer-social-title" class="canva-text text-sm font-bold"></h2>
+     <div class="mt-4 flex gap-3 text-[#bd8755]">
+      <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i data-lucide="instagram"></i></a><a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i data-lucide="facebook"></i></a><a href="https://wa.me/920000000000" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><i data-lucide="message-circle"></i></a>
+     </div>
+    </div>
+   </div>
+  </footer><a id="whatsapp-link" href="https://wa.me/920000000000?text=Hi%20Smart%20Salon%2C%20I%27d%20like%20to%20book%20an%20appointment." target="_blank" rel="noopener noreferrer" aria-label="Chat with Smart Salon on WhatsApp" title="Chat with us on WhatsApp" class="whatsapp fixed bottom-5 right-5 z-40 flex h-14 w-14 items-center justify-center rounded-full text-white"><i data-lucide="message-circle" class="h-7 w-7"></i></a>
+  <div id="auth-modal" class="modal fixed inset-0 z-50 flex items-end justify-center bg-black/80 p-0 sm:items-center sm:p-5" role="dialog" aria-modal="true" aria-labelledby="auth-title">
+   <div class="modal-panel w-full max-w-md border border-[#bd8755]/35 bg-[#161615] p-6 sm:rounded-sm">
+    <div class="flex items-start justify-between">
+     <div>
+      <p data-template-id="auth-kicker" class="canva-text section-kicker"></p>
+      <h2 data-template-id="auth-title" class="canva-text display mt-2"></h2>
+     </div><button type="button" aria-label="Close authentication" onclick="closeModal('auth-modal')" class="p-2 text-stone-400"><i data-lucide="x"></i></button>
+    </div>
+    <div class="mt-6 flex border-b border-white/10">
+     <button data-template-id="signin-tab" class="canva-button flex-1 border-b-2 border-[#bd8755] pb-3 text-sm text-[#d7a979]" onclick="authMode('signin')"></button><button data-template-id="signup-tab" class="canva-button flex-1 pb-3 text-sm text-stone-400" onclick="authMode('signup')"></button>
+    </div>
+    <form id="signin-form" class="mt-6 space-y-4" onsubmit="signIn(event)">
+     <label data-template-id="signin-email-label" for="signin-email" class="canva-text block text-sm font-semibold"></label><input id="signin-email" type="email" required class="mt-2 w-full border border-stone-700 bg-[#101010] p-3 text-white outline-none focus:border-[#bd8755]"><label data-template-id="signin-password-label" for="signin-password" class="canva-text block text-sm font-semibold"></label><input id="signin-password" type="password" required class="mt-2 w-full border border-stone-700 bg-[#101010] p-3 text-white outline-none focus:border-[#bd8755]"><button data-template-id="signin-submit" class="canva-button bronze-button w-full py-3 text-sm font-bold" type="submit"></button>
+    </form>
+    <form id="signup-form" class="hide mt-6 space-y-4" onsubmit="createAccount(event)">
+     <label data-template-id="signup-name-label" for="signup-name" class="canva-text block text-sm font-semibold"></label><input id="signup-name" required class="mt-2 w-full border border-stone-700 bg-[#101010] p-3 text-white outline-none focus:border-[#bd8755]"><label data-template-id="signup-email-label" for="signup-email" class="canva-text block text-sm font-semibold"></label><input id="signup-email" type="email" required class="mt-2 w-full border border-stone-700 bg-[#101010] p-3 text-white outline-none focus:border-[#bd8755]"><label data-template-id="signup-phone-label" for="signup-phone" class="canva-text block text-sm font-semibold"></label><input id="signup-phone" required class="mt-2 w-full border border-stone-700 bg-[#101010] p-3 text-white outline-none focus:border-[#bd8755]"><label data-template-id="signup-password-label" for="signup-password" class="canva-text block text-sm font-semibold"></label><input id="signup-password" type="password" required class="mt-2 w-full border border-stone-700 bg-[#101010] p-3 text-white outline-none focus:border-[#bd8755]"><label data-template-id="signup-confirm-label" for="signup-confirm" class="canva-text block text-sm font-semibold"></label><input id="signup-confirm" type="password" required class="mt-2 w-full border border-stone-700 bg-[#101010] p-3 text-white outline-none focus:border-[#bd8755]">
+     <p id="auth-message" class="text-sm text-red-300" aria-live="polite"></p><button data-template-id="signup-submit" class="canva-button bronze-button w-full py-3 text-sm font-bold" type="submit"></button>
+    </form>
+   </div>
+  </div>
+  <div id="profile-modal" class="modal fixed inset-0 z-50 flex items-end justify-center bg-black/80 p-0 sm:items-center sm:p-5" role="dialog" aria-modal="true" aria-labelledby="profile-modal-name">
+   <div class="modal-panel max-h-[90%] w-full max-w-3xl overflow-y-auto border border-[#bd8755]/35 bg-[#161615] p-6 sm:rounded-sm">
+    <button type="button" aria-label="Close stylist profile" onclick="closeModal('profile-modal')" class="float-right p-2 text-stone-400"><i data-lucide="x"></i></button>
+    <div id="profile-modal-content"></div>
+   </div>
+  </div>
+  <div id="booking-modal" class="modal fixed inset-0 z-50 flex items-end justify-center bg-black/80 p-0 sm:items-center sm:p-5" role="dialog" aria-modal="true" aria-labelledby="booking-title">
+   <div class="modal-panel max-h-[92%] w-full max-w-3xl overflow-y-auto border border-[#bd8755]/35 bg-[#161615] p-5 sm:rounded-sm sm:p-8">
+    <div class="flex items-start justify-between">
+     <div>
+      <p data-template-id="booking-kicker" class="canva-text section-kicker"></p>
+      <h2 data-template-id="booking-title" class="canva-text display mt-2"></h2>
+     </div><button type="button" aria-label="Close booking" onclick="closeModal('booking-modal')" class="p-2 text-stone-400"><i data-lucide="x"></i></button>
+    </div>
+    <div id="booking-form" class="mt-7">
+     <p id="booking-step-label" class="text-xs font-bold uppercase tracking-[.16em] text-[#bd8755]"></p>
+     <div id="booking-step-content" class="mt-5"></div>
+     <p id="booking-error" class="mt-4 text-sm text-red-300" aria-live="polite"></p>
+     <div class="mt-8 flex justify-between gap-3">
+      <button id="booking-back" type="button" class="outline-button px-5 py-3 text-sm" onclick="bookingBack()">Back</button><button id="booking-next" type="button" class="bronze-button px-5 py-3 text-sm font-bold" onclick="bookingNext()">Continue</button>
+     </div>
+    </div>
+    <div id="booking-success" class="hide py-10 text-center">
+     <i data-lucide="circle-check-big" class="mx-auto h-12 w-12 text-[#bd8755]"></i>
+     <h3 data-template-id="booking-success-title" class="canva-text display mt-5"></h3>
+     <div id="booking-confirmation-details" class="mx-auto mt-5 max-w-sm text-left text-sm leading-7 text-stone-300"></div><button data-template-id="booking-success-button" type="button" onclick="closeModal('booking-modal');showPage('dashboard')" class="canva-button bronze-button mt-7 rounded-sm px-6 py-3 text-sm font-bold"></button>
+    </div>
+   </div>
+  </div>
+  <script>
+    // Local Canva-export replacement: populate template placeholders when running outside Canva.
+    (function(){
+      const copy={
+        "brand-name":"SMART SALON","nav-home":"Home","nav-services":"Services","nav-stylists":"Stylists","nav-about":"About","nav-signin":"Sign In","nav-book-button":"Book Appointment","mobile-home":"Home","mobile-services":"Services","mobile-stylists":"Stylists","mobile-about":"About","mobile-signin":"Sign In","mobile-book":"Book Appointment",
+        "hero-eyebrow":"PREMIUM MEN'S GROOMING","hero-title":"A sharper look.<br>A smarter booking experience.","hero-subtitle":"Premium men's grooming with expert stylists, effortless appointments, and a smarter way to manage your next visit.","hero-book-button":"Book Appointment","hero-stylists-button":"Explore Our Stylists",
+        "services-kicker":"OUR SERVICES","services-title":"Grooming, refined.","services-copy":"From a precise cut to a complete grooming ritual, choose the service that fits your style.","service-classic-title":"Classic Haircut","service-classic-copy":"A clean, tailored cut with a precise finish.","service-classic-meta":"45 min · Rs. 2,800","service-classic-button":"Book Service","service-combo-title":"Hair + Beard","service-combo-copy":"A complete cut and beard service, shaped together.","service-combo-meta":"60 min · Rs. 4,200","service-combo-button":"Book Service","service-beard-title":"Beard Styling","service-beard-copy":"Detailed beard shaping for a balanced, polished look.","service-beard-meta":"30 min · Rs. 1,800","service-beard-button":"Book Service","service-premium-title":"Premium Grooming","service-premium-copy":"Our complete premium grooming experience.","service-premium-meta":"90 min · Rs. 6,000","service-premium-button":"Book Service",
+        "why-kicker":"WHY SMART SALON","why-title":"Your time deserves better grooming.","benefit-booking-title":"Easy Booking","benefit-booking-copy":"Choose your service, date, time, and stylist in a simple guided flow.","benefit-experts-title":"Expert Stylists","benefit-experts-copy":"Explore experienced professionals and choose the right specialist for your style.","benefit-smart-title":"Smart Recommendations","benefit-smart-copy":"Let the salon recommend a suitable available stylist when you prefer.","benefit-wait-title":"Less Waiting","benefit-wait-copy":"Organized appointments help keep your visit smooth and predictable.",
+        "featured-kicker":"MEET THE TEAM","featured-title":"Stylists who know the craft.","featured-explore-button":"Explore All Stylists","featured-ahmed-name":"Ahmed Khan","featured-ahmed-role":"Master Barber","featured-ahmed-meta":"8 Years Experience · ★ 4.9","featured-ahmed-profile":"View Profile","featured-ahmed-book":"Book","featured-hamza-name":"Hamza Ali","featured-hamza-role":"Hair & Beard Specialist","featured-hamza-meta":"6 Years Experience · ★ 4.8","featured-hamza-profile":"View Profile","featured-hamza-book":"Book","featured-daniyal-name":"Daniyal Shah","featured-daniyal-role":"Grooming Expert","featured-daniyal-meta":"7 Years Experience · ★ 4.9","featured-daniyal-profile":"View Profile","featured-daniyal-book":"Book",
+        "final-cta-kicker":"READY FOR YOUR NEXT LOOK?","final-cta-title":"Book your next appointment with confidence.","final-cta-copy":"Pick a service and let Smart Salon handle the rest.","final-cta-button":"Book Appointment","stylists-kicker":"OUR STYLISTS","stylists-title":"Find your specialist.","stylists-copy":"Explore our grooming team by specialty, availability, experience, and rating.",
+        "dashboard-kicker":"MY DASHBOARD","dash-overview-button":"Overview","dash-book-button":"Book Appointment","dash-appointments-button":"My Appointments","dash-history-button":"Appointment History","dash-profile-button":"Profile","dash-signout-button":"Sign Out","dashboard-copy":"Manage your appointments, history, and profile in one place.","metric-upcoming-label":"Upcoming Appointments","metric-visits-label":"Total Visits","metric-stylist-label":"Preferred Stylist","upcoming-heading":"Your next appointment","appointments-title":"My Appointments","appointments-copy":"Review and manage your upcoming appointments.","history-title":"Appointment History","history-all-button":"All","history-completed-button":"Completed","history-cancelled-button":"Cancelled","profile-title":"Your Profile","profile-name-label":"Full Name","profile-email-label":"Email","profile-phone-label":"Phone Number","profile-save-button":"Save Profile",
+        "footer-brand":"SMART SALON","footer-copy":"Premium men's grooming with smarter appointments and expert stylists.","footer-links-title":"Quick Links","footer-services-link":"Services","footer-stylists-link":"Stylists","footer-contact-link":"WhatsApp","footer-social-title":"Connect With Us","auth-kicker":"WELCOME","auth-title":"Sign in to Smart Salon","signin-tab":"Sign In","signup-tab":"Create Account","signin-email-label":"Email","signin-password-label":"Password","signin-submit":"Sign In","signup-name-label":"Full Name","signup-email-label":"Email","signup-phone-label":"Phone Number","signup-password-label":"Password","signup-confirm-label":"Confirm Password","signup-submit":"Create Account","booking-kicker":"APPOINTMENT","booking-title":"Book your appointment","booking-success-title":"Appointment Confirmed","booking-success-button":"Go to Dashboard"
+      };
+      Object.entries(copy).forEach(([id,v])=>document.querySelectorAll('[data-template-id="'+id+'"]').forEach(el=>{if(el.tagName!=='IMG')el.innerHTML=v;}));
+      const images={"hero-image":"https://images.pexels.com/photos/3998415/pexels-photo-3998415.jpeg?auto=compress&cs=tinysrgb&w=1600","stylist-ahmed-image":"https://images.pexels.com/photos/1805600/pexels-photo-1805600.jpeg?auto=compress&cs=tinysrgb&w=900","stylist-hamza-image":"https://images.pexels.com/photos/1319460/pexels-photo-1319460.jpeg?auto=compress&cs=tinysrgb&w=900","stylist-daniyal-image":"https://images.pexels.com/photos/1813272/pexels-photo-1813272.jpeg?auto=compress&cs=tinysrgb&w=900","stylist-usman-image":"https://images.pexels.com/photos/1570807/pexels-photo-1570807.jpeg?auto=compress&cs=tinysrgb&w=900"};
+      Object.entries(images).forEach(([id,u])=>document.querySelectorAll('[data-template-id="'+id+'"]').forEach(el=>{el.src=u;}));
+    })();
+    const WHATSAPP_NUMBER='920000000000';
+    const stylists={ahmed:{name:'Ahmed Khan',role:'Master Barber',experience:'8 Years Experience',rating:'4.9',availability:'Available Today · 3:30 PM',services:'Classic Haircut, Hair + Beard, Premium Grooming',bio:'Ahmed pairs sharp technical work with an unhurried consultation. His signature is a precise finish that grows out effortlessly.'},hamza:{name:'Hamza Ali',role:'Hair & Beard Specialist',experience:'6 Years Experience',rating:'4.8',availability:'Available Tomorrow · 10:00 AM',services:'Hair + Beard, Beard Styling',bio:'Hamza specialises in balanced beard architecture and modern cuts designed around your face shape and routine.'},daniyal:{name:'Daniyal Shah',role:'Grooming Expert',experience:'7 Years Experience',rating:'4.9',availability:'Available Today · 5:00 PM',services:'Beard Styling, Premium Grooming, Hair + Beard',bio:'Daniyal brings meticulous detail and a polished, confident finish to every complete grooming ritual.'},usman:{name:'Usman Malik',role:'Styling Specialist',experience:'5 Years Experience',rating:'4.8',availability:'Available Tomorrow · 12:30 PM',services:'Classic Haircut, Premium Grooming',bio:'Usman creates textured, wearable styles and classic cuts with a sharp contemporary edge.'}};
+    const services=[{name:'Classic Haircut',duration:'45 min',price:2800},{name:'Hair + Beard',duration:'60 min',price:4200},{name:'Beard Styling',duration:'30 min',price:1800},{name:'Premium Grooming',duration:'90 min',price:6000}];
+    let user={name:'Alex Morgan',email:'alex@example.com',phone:'+92 300 0000000'},signedIn=false,pendingBooking=false,booking={step:1,service:null,date:'',time:'',stylist:'recommend'},appointments=[{id:'SS-2401',service:'Hair + Beard',stylist:'Ahmed Khan',date:'18 Sep 2026',time:'3:30 PM',price:4200,status:'Confirmed'}],historyFilter='all';
+
+    function showPage(page){if(page==='dashboard'&&!signedIn){pendingBooking=false;openAuth('signin');return}document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));document.getElementById(page+'-view').classList.add('active');document.getElementById('mobile-menu').classList.add('hide');window.scrollTo({top:0,behavior:'smooth'});if(page==='dashboard')renderDashboard()}
+    function showPublicHome(){showPage('home')}
+    function scrollHome(id){showPage('home');setTimeout(()=>document.getElementById(id).scrollIntoView({behavior:'smooth'}),80)}
+    function toggleMobileMenu(){document.getElementById('mobile-menu').classList.toggle('hide')}
+    function openModal(id){document.body.style.overflow='hidden';document.getElementById(id).classList.add('open')}
+    function closeModal(id){document.body.style.overflow='';document.getElementById(id).classList.remove('open')}
+    function openAuth(mode){authMode(mode);openModal('auth-modal')}
+    function authMode(mode){document.getElementById('signin-form').classList.toggle('hide',mode!=='signin');document.getElementById('signup-form').classList.toggle('hide',mode!=='signup');document.getElementById('auth-message').textContent=''}
+    function signIn(e){e.preventDefault();signedIn=true;closeModal('auth-modal');if(pendingBooking){pendingBooking=false;openBooking()}else showPage('dashboard')}
+    function createAccount(e){e.preventDefault();const p=document.getElementById('signup-password').value,c=document.getElementById('signup-confirm').value;if(p!==c){document.getElementById('auth-message').textContent='Passwords do not match.';return}user={name:document.getElementById('signup-name').value,email:document.getElementById('signup-email').value,phone:document.getElementById('signup-phone').value};signedIn=true;closeModal('auth-modal');if(pendingBooking){pendingBooking=false;openBooking()}else showPage('dashboard')}
+    function signOut(){signedIn=false;showPage('home')}
+    function requestBooking(service='',stylist=''){if(service)booking.service=services.find(x=>x.name===service);if(stylist)booking.stylist=stylist;if(!signedIn){pendingBooking=true;openAuth('signin');return}openBooking()}
+    function openBooking(){booking.step=booking.service?2:1;document.getElementById('booking-form').classList.remove('hide');document.getElementById('booking-success').classList.add('hide');openModal('booking-modal');renderBooking()}
+    function bookingBack(){if(booking.step>1){booking.step--;renderBooking()}}
+    function bookingNext(){const err=document.getElementById('booking-error');err.textContent='';if(booking.step===1&&!booking.service){err.textContent='Please choose a service.';return}if(booking.step===2&&!booking.date){err.textContent='Please choose a date.';return}if(booking.step===3&&!booking.time){err.textContent='Please choose an available time.';return}if(booking.step===4){confirmBooking();return}booking.step++;renderBooking()}
+    function renderBooking(){const c=document.getElementById('booking-step-content'),label=document.getElementById('booking-step-label'),back=document.getElementById('booking-back'),next=document.getElementById('booking-next');back.classList.toggle('hide',booking.step===1);next.textContent=booking.step===4?'Confirm Appointment':'Continue';label.textContent='Step '+booking.step+' of 4';if(booking.step===1)c.innerHTML='<div class="grid gap-3 sm:grid-cols-2">'+services.map(s=>'<button type="button" class="booking-choice '+(booking.service&&booking.service.name===s.name?'selected':'')+' p-4 text-left" onclick="booking.service=services['+services.indexOf(s)+'];renderBooking()"><strong>'+s.name+'</strong><span class="mt-2 block text-sm text-stone-400">'+s.duration+' · Rs. '+s.price.toLocaleString()+'</span></button>').join('')+'</div>';else if(booking.step===2)c.innerHTML='<label class="block text-sm font-bold" for="booking-date-input">Choose Date</label><input id="booking-date-input" type="date" min="2026-09-11" value="'+booking.date+'" onchange="booking.date=this.value" class="mt-3 w-full border border-stone-700 bg-[#101010] p-3 text-white outline-none focus:border-[#bd8755]">';else if(booking.step===3)c.innerHTML='<p class="text-sm text-stone-300">Choose an available time</p><div class="mt-4 flex flex-wrap gap-2">'+['10:00 AM','10:30 AM','12:30 PM','3:30 PM','5:00 PM'].map(t=>'<button type="button" class="booking-choice '+(booking.time===t?'selected':'')+' px-4 py-2 text-sm" onclick="booking.time=\''+t+'\';renderBooking()">'+t+'</button>').join('')+'</div>';else{const s=booking.stylist==='recommend'?null:stylists[booking.stylist];c.innerHTML='<div class="grid gap-3 sm:grid-cols-2"><button type="button" class="booking-choice '+(booking.stylist==='recommend'?'selected':'')+' p-4 text-left" onclick="booking.stylist=\'recommend\';renderBooking()"><strong>Let Salon Recommend a Stylist</strong><span class="mt-2 block text-sm text-stone-400">We will recommend the most suitable available stylist.</span></button>'+Object.keys(stylists).map(id=>'<button type="button" class="booking-choice '+(booking.stylist===id?'selected':'')+' p-4 text-left" onclick="booking.stylist=\''+id+'\';renderBooking()"><strong>'+stylists[id].name+'</strong><span class="mt-2 block text-sm text-stone-400">'+stylists[id].role+' · ★ '+stylists[id].rating+'</span></button>').join('')+'</div><div class="mt-6 border-t border-white/10 pt-5 text-sm leading-7 text-stone-300"><strong class="text-[#d7a979]">Appointment Summary</strong><br>Customer: '+user.name+'<br>Service: '+booking.service.name+' · '+booking.service.duration+'<br>Date: '+booking.date+' at '+booking.time+'<br>Stylist: '+(s?s.name:'Smart Salon recommendation')+'<br>Total: Rs. '+booking.service.price.toLocaleString()+'</div>'}} 
+    function confirmBooking(){const chosen=booking.stylist==='recommend'?stylists.ahmed:stylists[booking.stylist];const date=new Date(booking.date+'T12:00:00').toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'});const a={id:'SS-'+Math.floor(1000+Math.random()*8999),service:booking.service.name,stylist:chosen.name,date,time:booking.time,price:booking.service.price,status:'Confirmed'};appointments.unshift(a);document.getElementById('booking-form').classList.add('hide');document.getElementById('booking-success').classList.remove('hide');document.getElementById('booking-confirmation-details').innerHTML='<strong>Booking ID</strong>: '+a.id+'<br><strong>Service</strong>: '+a.service+'<br><strong>Stylist</strong>: '+a.stylist+'<br><strong>Date</strong>: '+a.date+'<br><strong>Time</strong>: '+a.time;lucide.createIcons()}
+    function openProfile(id){const s=stylists[id],image='stylist-'+id+'-image';document.getElementById('profile-modal-content').innerHTML='<div class="grid gap-7 sm:grid-cols-[220px_1fr]"><img data-template-id="'+image+'" loading="lazy" class="canva-image h-72 w-full object-cover"><div><p class="section-kicker">Stylist profile</p><h2 id="profile-modal-name" class="display mt-2 text-4xl">'+s.name+'</h2><p class="mt-2 text-[#d7a979]">'+s.role+'</p><p class="mt-5 text-sm text-stone-300">'+s.experience+' · ★ '+s.rating+'</p><p class="mt-5 leading-relaxed text-stone-400">'+s.bio+'</p><p class="mt-5 text-sm text-stone-300"><strong class="text-[#d7a979]">Services:</strong> '+s.services+'</p><p class="mt-2 text-sm text-[#b5d6aa]">'+s.availability+'</p><button class="bronze-button mt-6 px-5 py-3 text-sm font-bold" onclick="closeModal(\'profile-modal\');requestBooking(\'\',\''+id+'\')">Book with this stylist</button></div></div>';openModal('profile-modal');lucide.createIcons()}
+    function filterStylists(){const q=document.getElementById('stylist-search').value.toLowerCase(),service=document.getElementById('service-filter').value,available=document.getElementById('availability-filter').value,sort=document.getElementById('sort-filter').value;const cards=[...document.querySelectorAll('.stylist-card')];cards.sort((a,b)=>Number(b.dataset[sort])-Number(a.dataset[sort])).forEach(card=>document.getElementById('stylist-grid').appendChild(card));let count=0;cards.forEach(c=>{const ok=(c.dataset.name.toLowerCase()+c.textContent.toLowerCase()).includes(q)&&(service==='all'||c.dataset.services.includes(service))&&(available==='all'||c.dataset.availability===available);c.classList.toggle('hide',!ok);if(ok)count++});document.getElementById('stylist-results').textContent=count+' stylist'+(count===1?'':'s')+' found';document.getElementById('no-stylists').classList.toggle('hide',count!==0)}
+    function dashboardTab(tab,button){['overview','appointments','history','profile'].forEach(x=>document.getElementById('dash-'+x).classList.toggle('hide',x!==tab));document.querySelectorAll('.dashboard-side button').forEach(x=>x.classList.remove('active'));button.classList.add('active');renderDashboard()}
+    function appointmentCard(a){const cl=a.status==='Cancelled'?'status-cancelled':a.status==='Pending'?'status-pending':'status-confirmed';return '<article class="salon-card rounded-sm p-5"><div class="flex flex-col justify-between gap-5 sm:flex-row sm:items-center"><div><h3 class="font-bold">'+a.service+' <span class="ml-2 rounded-full px-2 py-1 text-xs '+cl+'">'+a.status+'</span></h3><p class="mt-2 text-sm text-stone-400">'+a.stylist+' · '+a.date+' at '+a.time+'</p><p class="mt-1 text-sm text-[#d7a979]">Rs. '+a.price.toLocaleString()+'</p></div>'+(a.status==='Confirmed'?'<div class="flex gap-2"><button class="outline-button px-3 py-2 text-xs" onclick="reschedule(\''+a.id+'\')">Reschedule</button><button class="border border-red-300/30 px-3 py-2 text-xs text-red-200" onclick="cancelAppointment(\''+a.id+'\')">Cancel</button></div>':'')+'</div></article>'}
+    function renderDashboard(){document.getElementById('dashboard-greeting').textContent='Good morning, '+user.name.split(' ')[0]+'.';const active=appointments.filter(a=>a.status==='Confirmed');document.getElementById('metric-upcoming-value').textContent=active.length;document.getElementById('upcoming-card').innerHTML=active[0]?appointmentCard(active[0]):'<p class="py-8 text-stone-500">No upcoming appointments. Your next great look is one booking away.</p>';document.getElementById('appointments-list').innerHTML=appointments.map(appointmentCard).join('');renderHistory();document.getElementById('profile-name-input').value=user.name;document.getElementById('profile-email-input').value=user.email;document.getElementById('profile-phone-input').value=user.phone}
+    function reschedule(id){const a=appointments.find(x=>x.id===id);a.time=a.time==='3:30 PM'?'5:00 PM':'3:30 PM';a.status='Pending';renderDashboard()}
+    function cancelAppointment(id){const a=appointments.find(x=>x.id===id);a.status='Cancelled';renderDashboard()}
+    function filterHistory(f){historyFilter=f;renderHistory()}
+    function renderHistory(){const rows=appointments.filter(a=>historyFilter==='all'||a.status===historyFilter);document.getElementById('history-list').innerHTML=rows.length?rows.map(appointmentCard).join(''):'<p class="py-8 text-stone-500">No appointments in this category.</p>'}
+    function saveProfile(e){e.preventDefault();user.name=document.getElementById('profile-name-input').value;user.email=document.getElementById('profile-email-input').value;user.phone=document.getElementById('profile-phone-input').value;document.getElementById('profile-message').textContent='Profile saved successfully.';renderDashboard()}
+    window.addEventListener('scroll',()=>document.getElementById('site-header').classList.toggle('shadow-2xl',window.scrollY>20));
+    document.getElementById('whatsapp-link').href='https://wa.me/'+WHATSAPP_NUMBER+'?text=Hi%20Smart%20Salon%2C%20I%27d%20like%20to%20book%20an%20appointment.';
+    filterStylists();lucide.createIcons();
+  </script>
+ </body>
+</html>
